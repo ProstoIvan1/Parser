@@ -52,10 +52,10 @@ namespace ConsoleApp
             {
                 try
                 {
-                    AddColumns(table, reader.ReadLine());
+                    AddColumns(table, reader.ReadLine() + '\n');
                     foreach(string strRow in reader.GetLines())
                     {
-                        AddRow(table, strRow);
+                        if(strRow != "") AddRow(table, strRow + '\n');
                     }
                 }
                 finally

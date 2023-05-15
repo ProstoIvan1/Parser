@@ -13,8 +13,10 @@ namespace ServerImport
         static void Main(string[] args)
         {
             DataTable dt = CSVImporter.ImportWithHeader(@"U:\Максимович ИА\ДЕМО-ЭКЗАМЕН\КОД 1.5._ВАРИАНТ_4\Сессия 1\materials_s_import.csv");
+            MaterialsHandler.MaterialTypeTable = DataBase.GetFromDB("SELECT * FROM MaterialType");
+            MaterialsHandler.UnitOfMeasureTable = DataBase.GetFromDB("SELECT * FROM UnitOfMeasure");
             MaterialsHandler handler = new MaterialsHandler();
-            handler.GetNewTable(dt);
+            DataTable newDt = handler.GetNewTable(dt);
         }
     }
 }

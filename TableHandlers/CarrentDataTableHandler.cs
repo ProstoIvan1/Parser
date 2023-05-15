@@ -7,9 +7,10 @@ namespace ConsoleApp.TableHandlers
 {
     abstract public class CarrentDataTableHandler
     {
+        protected abstract DataTable TableTemplate { get; }
         public DataTable GetNewTable(DataTable sourseTable)
         {
-            DataTable resultTable = DataBase.GetFromDB("SELECT * FROM Material");
+            DataTable resultTable = TableTemplate;
             if (resultTable.Rows.Count > 0)
             {
                 throw new Exception("Table is already fill");
@@ -17,22 +18,20 @@ namespace ConsoleApp.TableHandlers
 
             for (int i = 0; i < sourseTable.Rows.Count; i++)
             {
-
-
-                resultTable.Rows.Add(newRow);
+                resultTable.Rows.Add(GetNewRow(sourseTable, i));
             }
 
 
             return resultTable;
         }
 
-        protected abstract DataRow GetNewRow(DataTable sourseTable);
+        protected abstract DataRow GetNewRow(DataTable sourseTable, int id);
         private static string CutNonnumericSymbols(string str)
         {
             string result = "";
             foreach (char c in str)
             {
-                if('0' >= c && c >= '9') result += c;
+                if('0' <= c && c <= '9') result += c;
             }
             return result;
         }
