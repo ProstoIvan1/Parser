@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 
-namespace ConsoleApp
+namespace ConsoleApp.Exporters
 {
     public static class CSVExporter
     {
