@@ -13,12 +13,38 @@ namespace ConsoleApp
         public static DataTable GetFromDB(string selectCommand)
         {
             SqlDataAdapter adapter = new SqlDataAdapter(selectCommand, Connection);
+            Connection.Open();
             try
             {
-                Connection.Open();
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 return table;
+            }
+
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public static T GetValue<T>(string selectCommand)
+        {
+            SqlCommand command = new SqlCommand(selectCommand, Connection);
+            Connection.Open();
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+
+                try
+                {
+                    if (reader.Read()) return reader.GetFieldValue<T>(0);
+                    else throw new Exception("Value not found");
+                }
+
+                finally
+                {
+                    reader.Close();
+                }
             }
 
             finally
@@ -41,7 +67,7 @@ namespace ConsoleApp
             }
         }
 
-        public static void SetToDB(DataTable dataTable, string tableName)
+        public static void SetToDB(this DataTable dataTable, string tableName)
         {
             SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM " + tableName, Connection);
             new SqlCommandBuilder(adapter);

@@ -24,7 +24,7 @@ namespace ConsoleApp
                     isNewColumn = true;
                     continue;
                 }
-                if (!(SkipingSymbols.Contains(c) || (isNewColumn && c == ' ')))
+                if (!(SkipingSymbols.Contains(c) || (isNewColumn && c == ' ') || c == '\r'))
                 {
                     columnName += c;
                     isNewColumn = false;
@@ -48,7 +48,7 @@ namespace ConsoleApp
                     isNewValue = true;
                     continue;
                 }
-                if (!(SkipingSymbols.Contains(c) || (isNewValue && c == ' ')))
+                if (!(SkipingSymbols.Contains(c) || (isNewValue && c == ' ') || c == '\r'))
                 {
                     value += c;
                     isNewValue = false;
